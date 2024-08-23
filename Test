@@ -1,0 +1,41 @@
+local players = game:GetService("Players")
+local textbox = Instance.new("TextBox")
+textbox.Size = UDim2.new(0, 200, 0, 30)
+textbox.Position = UDim2.new(0, 10, 0, 10)
+textbox.Parent = game:GetService("CoreGui")
+textbox.PlaceholderText = "Enter username..."
+
+local function flingPlayer(username)
+for _, player in pairs(players:GetPlayers()) do
+if player.Name:lower():find(username:lower()) then
+local character = player.Character
+if character then
+local humanoid = character:FindFirstChild("Humanoid")
+if humanoid then
+local randomBodyPart = character:FindFirstChild(script:WaitForChild("RandomBodyPart"))
+if not randomBodyPart then
+randomBodyPart = Instance.new("Part")
+randomBodyPart.Name = "RandomBodyPart"
+randomBodyPart.Parent = character
+randomBodyPart.Anchored = true
+randomBodyPart.Transparency = 1
+randomBodyPart.Size = Vector3.new(0.1, 0.1, 0.1)
+randomBodyPart.Position = character.HumanoidRootPart.Position
+end
+humanoid.RootPart.Velocity = Vector3.new(0, 100, 0)
+randomBodyPart.Velocity = Vector3.new(0, 100, 0)
+wait(0.1)
+randomBodyPart:Destroy()
+end
+end
+end
+end
+end
+
+textbox.FocusLost:Connect(function()
+local username = textbox.Text
+if username ~= "" then
+flingPlayer(username)
+textbox.Text = ""
+end
+end)
