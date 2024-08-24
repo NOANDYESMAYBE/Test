@@ -1,0 +1,54 @@
+-- create the gui
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- create the textbox
+local textbox = Instance.new("TextBox")
+textbox.Parent = gui
+textbox.Size = UDim2.new(0, 200, 0, 50)
+textbox.Position = UDim2.new(0, 10, 0, 10)
+textbox.PlaceholderText = "Find user..."
+
+-- function to find users
+local function findUsers(text)
+local players = game.Players:GetPlayers()
+local foundPlayers = {}
+for _, player in pairs(players) do
+if player.Name:lower():find(text:lower()) then
+table.insert(foundPlayers, player)
+end
+end
+return foundPlayers
+end
+
+-- function to fling player
+local function flingPlayer(player)
+local character = game.Players.LocalPlayer.Character
+local humanoid = character:FindFirstChild("Humanoid")
+local bodyPart = character:FindFirstChild("Right Arm")
+local force = Instance.new("BodyForce")
+force.Parent = bodyPart
+force.Force = Vector3.new(0, 1000, 0)
+wait(0.5)
+force:Destroy()
+
+-- make the right arm come back
+local armCFrame = bodyPart.CFrame
+bodyPart.Anchored = true
+bodyPart.CFrame = armCFrame
+wait(0.1)
+bodyPart.Anchored = false
+end
+
+-- textbox changed event
+textbox.Changed:Connect(function(property)
+if property == "Text" then
+local text = textbox.Text
+if text ~= "" then
+local foundPlayers = findUsers(text)
+for _, player in pairs(foundPlayers) do
+flingPlayer(player)
+end
+end
+end
+end)
