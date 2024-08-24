@@ -22,25 +22,24 @@ return foundPlayers
 end
 
 -- function to fling player
-local flinged = false
 local function flingPlayer(player)
-if not flinged then
-local character = game.Players.LocalPlayer.Character
-local humanoid = character:FindFirstChild("Humanoid")
+if player.Character then
+local humanoid = player.Character:FindFirstChild("Humanoid")
 if humanoid then
 humanoid.RootPart.CFrame = CFrame.new(0, 10, 0)
 wait(0.5)
 humanoid.RootPart.CFrame = humanoid.RootPart.CFrame - Vector3.new(0, 10, 0)
-flinged = true
-wait(1)
-flinged = false
 end
 end
 end
 
--- textbox changed event
-textbox.Changed:Connect(function(property)
-if property == "Text" then
+-- create a debounce variable
+local debounce = false
+
+-- textbox focus lost event
+textbox.FocusLost:Connect(function()
+if not debounce then
+debounce = true
 local text = textbox.Text
 if text ~= "" then
 local foundPlayers = findUsers(text)
@@ -48,5 +47,7 @@ for _, player in pairs(foundPlayers) do
 flingPlayer(player)
 end
 end
+wait(1)
+debounce = false
 end
 end)
