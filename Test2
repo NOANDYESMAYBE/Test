@@ -22,13 +22,19 @@ return foundPlayers
 end
 
 -- function to fling player
+local flinged = false
 local function flingPlayer(player)
+if not flinged then
 local character = game.Players.LocalPlayer.Character
 local humanoid = character:FindFirstChild("Humanoid")
 if humanoid then
-humanoid.RootPart.CFrame = humanoid.RootPart.CFrame * CFrame.new(0, 10, 0)
+humanoid.RootPart.CFrame = CFrame.new(0, 10, 0)
 wait(0.5)
-humanoid.RootPart.CFrame = humanoid.RootPart.CFrame * CFrame.new(0, -10, 0)
+humanoid.RootPart.CFrame = humanoid.RootPart.CFrame - Vector3.new(0, 10, 0)
+flinged = true
+wait(1)
+flinged = false
+end
 end
 end
 
