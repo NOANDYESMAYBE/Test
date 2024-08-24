@@ -24,17 +24,11 @@ end
 -- function to fling player
 local function flingPlayer(player)
 local character = game.Players.LocalPlayer.Character
-local bodyParts = {"Right Arm", "Rightarm", "right arm", "Left Arm", "Leftarm", "left arm"}
-for _, partName in pairs(bodyParts) do
-local bodyPart = character:FindFirstChild(partName)
-if bodyPart then
-local force = Instance.new("BodyForce")
-force.Parent = bodyPart
-force.Force = Vector3.new(0, 1000, 0)
+local humanoid = character:FindFirstChild("Humanoid")
+if humanoid then
+humanoid.RootPart.CFrame = humanoid.RootPart.CFrame * CFrame.new(0, 10, 0)
 wait(0.5)
-force:Destroy()
-return
-end
+humanoid.RootPart.CFrame = humanoid.RootPart.CFrame * CFrame.new(0, -10, 0)
 end
 end
 
