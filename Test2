@@ -24,7 +24,6 @@ end
 -- function to fling player
 local function flingPlayer(player)
 local character = game.Players.LocalPlayer.Character
-local humanoid = character:FindFirstChild("Humanoid")
 local bodyPart = character:FindFirstChild("Right Arm") or character:FindFirstChild("Rightarm") or character:FindFirstChild("right arm")
 if bodyPart then
 local force = Instance.new("BodyForce")
@@ -32,15 +31,8 @@ force.Parent = bodyPart
 force.Force = Vector3.new(0, 1000, 0)
 wait(0.5)
 force:Destroy()
-
--- make the right arm come back
-local armCFrame = bodyPart.CFrame
-bodyPart.Anchored = true
-bodyPart.CFrame = armCFrame
-wait(0.1)
-bodyPart.Anchored = false
 else
-print("Couldn't find Right Arm part!")
+flingPlayer(player) -- try to fling using a different part
 end
 end
 
